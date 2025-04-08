@@ -12,7 +12,7 @@
 
     <body>
         <div class="container mt-3 d-flex justify-content-center align-items-center">
-            <div class="profile-body d-flex justify-content-start align-items-center">
+            <div class="profile-body d-flex justify-content-start align-items-center mt-5">
                 <div class="mx-4 d-block justify-content-start align-items-center w-100">
                     <div class="d-flex align-items-center">
                         <img src="{{ asset('images/hellokitty.jpg') }}" alt="User Profile">
@@ -21,20 +21,29 @@
                             <h6>Friends <i class="bi bi-people-fill"></i></h6>
                         </div>
                         <div class="dropdown">
+                            <a class="btn " href="{{ route('posts.index') }}">
+                                <i class="bi bi-x"></i>
+                            </a>
                             <button class="btn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <i class="bi bi-three-dots"></i>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li><a class="dropdown-item" href="{{ url('/posts/edit') }}">Edit</a></li>
-                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                                <li><a class="dropdown-item" href="{{ route('posts.edit', $post->id) }}">Edit</a>
+                                </li>
+                                <form action="{{ route('posts.destroy', $post->id) }}" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this post?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="dropdown-item text-danger">Delete</button>
+                                </form>
                             </ul>
                         </div>
                     </div>
-                    <p class="mt-3">Title</p>
-                    <p class="mt-3">Content</p>
-
+                    <p class="mt-3"><strong>{{ $post->title }}</strong></p>
+                    <p class="mt-3">{{ $post->body }}</p>
                 </div>
+
             </div>
         </div>
 
